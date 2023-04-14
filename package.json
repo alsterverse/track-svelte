@@ -12,6 +12,7 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
+		"@storyblok/svelte": "^3.0.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.15.5",
 		"@typescript-eslint/eslint-plugin": "^5.58.0",
@@ -27,5 +28,8 @@
 		"typescript": "^5.0.4",
 		"vite": "^4.2.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"zod": "^3.21.4"
+	}
 }
