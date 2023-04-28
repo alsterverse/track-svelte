@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { storyblokEditable, StoryblokComponent, renderRichText } from '@storyblok/svelte';
-	export let blok: any;
-	$: resolvedRichText = renderRichText(blok.richText);
+	import type { StoryblokPage } from '$lib/schema/story';
+	import { storyblokEditable, StoryblokComponent } from '@storyblok/svelte';
+	export let blok: StoryblokPage;
 </script>
 
 {#key blok}
 	<div use:storyblokEditable={blok}>
-		{#each blok.body as blok}
-			<StoryblokComponent {blok} />
+		{#each blok.body as innerBlok}
+			<StoryblokComponent blok={innerBlok} />
 		{/each}
-		<div>{@html resolvedRichText}</div>
 	</div>
 {/key}
