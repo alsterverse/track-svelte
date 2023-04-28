@@ -1,3 +1,5 @@
+import { StoryblokStory } from '$lib/schema/storyblok';
+import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 export const load = (async ({ parent }) => {
 	const { storyblokApi } = await parent();
@@ -6,7 +8,13 @@ export const load = (async ({ parent }) => {
 		version: 'draft'
 	});
 
+	const story = StoryblokStory.safeParse(dataStory.data.story);
+
+	if (!story.success) {
+		throw error(500, 'Could not parse story');
+	}
+
 	return {
-		story: dataStory.data.story
+		story: story.data
 	};
 }) satisfies PageLoad;

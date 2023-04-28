@@ -29,6 +29,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@storyblok/svelte": "^3.0.1"
+		"@storyblok/svelte": "^3.0.1",
+		"zod": "^3.21.4"
 	}
 }

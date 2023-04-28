@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   import { storyblokEditable } from "@storyblok/svelte";
-
-  export let blok;
+  import type { StoryblokTeaser } from "$lib/schema/storyblok";
+  export let blok: StoryblokTeaser;
 </script>
 
 <div

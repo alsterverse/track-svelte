@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { StoryblokFeature } from "$lib/schema/storyblok";
   import { storyblokEditable } from "@storyblok/svelte";
 
-  export let blok: any;
+  export let blok: StoryblokFeature;
 </script>
 
 <div
