@@ -1,6 +1,12 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import mkcert from 'vite-plugin-mkcert';
 
-export default defineConfig({
-	plugins: [sveltekit()]
-});
+/** @type {import('vite').UserConfig} */
+const config = {
+	plugins: [sveltekit(), mkcert()],
+	server: {
+		https: true
+	}
+};
+
+export default config;
