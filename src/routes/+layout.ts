@@ -6,13 +6,17 @@ import Feature from '$lib/components/Feature.svelte';
 import Grid from '$lib/components/Grid.svelte';
 import Page from '$lib/components/Page.svelte';
 import Teaser from '$lib/components/Teaser.svelte';
+import Case from '$lib/components/Case.svelte';
+import CaseImage from '$lib/components/CaseImage.svelte';
 
 const callbackComponents = () => {
 	return {
 		feature: Feature,
 		page: Page,
 		grid: Grid,
-		teaser: Teaser
+		teaser: Teaser,
+		case: Case,
+		caseImage: CaseImage
 	};
 };
 
