@@ -1,20 +1,17 @@
 <script lang="ts">
-	import type { StoryblokCaseImage } from '$lib/schema/story';
 	import { storyblokEditable } from '@storyblok/svelte';
 	import StoryBlokImage from './StoryBlokImage.svelte';
+	import type { StoryblokCaseImage } from '$lib/schema/case';
 	export let blok: StoryblokCaseImage;
-	console.log(blok);
 </script>
 
 <div use:storyblokEditable={blok}>
-	<div>
-		<StoryBlokImage blok={blok.image} />
-		<span>{blok.imageCaption}</span>
-	</div>
+	<StoryBlokImage blok={blok.image} />
 </div>
 
 <style>
 	div {
-		width: 80%;
+		margin: 2rem 0;
+		width: 100%;
 	}
 </style>

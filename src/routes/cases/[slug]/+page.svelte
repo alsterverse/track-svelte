@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { useStoryblokBridge, StoryblokComponent } from '@storyblok/svelte';
+	import { useStoryblokBridge } from '@storyblok/svelte';
 	import Case from '$lib/components/Case.svelte';
 	export let data;
 
@@ -11,8 +11,6 @@
 	});
 </script>
 
-<div>
-	{#if data.story}
-		<Case blok={data.story.content} />
-	{/if}
-</div>
+{#if data.story.content.component === 'case'}
+	<Case blok={data.story.content} />
+{/if}
