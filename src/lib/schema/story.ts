@@ -30,11 +30,6 @@ const StoryblokPage = z.object({
 	)
 });
 
-// export const StoryblokCase = z.object({
-// 	component: z.literal('case'),
-// 	body: z.array(z.discriminatedUnion('component', [StoryblokCaseImage]))
-// });
-
 export const StoryblokStory = z.object({
 	name: z.string(),
 	published_at: z.string().nullable(),

@@ -12,5 +12,5 @@
 </script>
 
 {#if data.story.content.component === 'case'}
-	<Case blok={data.story.content} />
+	<Case blok={data.story.content} index={data.index} previous={data.previous} next={data.next} />
 {/if}
