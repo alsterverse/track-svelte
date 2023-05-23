@@ -8,6 +8,7 @@ import Page from '$lib/components/Page.svelte';
 import Teaser from '$lib/components/Teaser.svelte';
 import Case from '$lib/components/Case.svelte';
 import CaseImage from '$lib/components/CaseImage.svelte';
+import Paragraph from '$lib/components/Paragraph.svelte';
 
 const callbackComponents = () => {
 	return {
@@ -16,7 +17,8 @@ const callbackComponents = () => {
 		grid: Grid,
 		teaser: Teaser,
 		case: Case,
-		caseImage: CaseImage
+		caseImage: CaseImage,
+		paragraph: Paragraph
 	};
 };
 
