@@ -9,11 +9,12 @@ export const load = (async ({ parent, params }) => {
 		version: 'draft',
 		starts_with: 'cases/'
 	});
-	const story = dataStory.data.stories.find((s: StoryblokStory) => s.slug === params.slug);
-	const index = dataStory.data.stories.indexOf(story) + 1;
 
-	const previous = dataStory.data.stories[index - 2]?.slug;
-	const next = dataStory.data.stories[index]?.slug;
+	const index = dataStory.data.stories.findIndex((s: StoryblokStory) => s.slug === params.slug);
+	const story = dataStory.data.stories[index];
+
+	const previous = dataStory.data.stories[index - 1]?.slug;
+	const next = dataStory.data.stories[index + 1]?.slug;
 
 	if (!story) throw error(404);
 	const parsedStory = StoryblokStory.safeParse(story);
@@ -25,7 +26,7 @@ export const load = (async ({ parent, params }) => {
 
 	return {
 		story: parsedStory.data,
-		index: index,
+		index: index + 1,
 		previous: previous,
 		next: next
 	};

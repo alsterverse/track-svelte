@@ -11,7 +11,7 @@
 	export let next: string;
 </script>
 
-<div use:storyblokEditable={blok} class="case">
+<article use:storyblokEditable={blok} class="case">
 	<span>No. {index < 10 ? '0' + index : index}</span>
 	<h1>{blok.title}</h1>
 	<div class="preamble-container">
@@ -64,32 +64,28 @@
 			</li>
 		{/each}
 	</ul>
-	<div class="case-pagination">
-		<span class="previous">
-			{#if previous}
-				<a href={previous}>
-					<img src="/longArrow.svg" alt="previous-arrow" />Case no {index < 11
-						? '0' + (index - 1)
-						: index - 1}
-				</a>
-			{/if}</span
-		>
-		<span class="next">
-			{#if next}
-				<a href={next}
-					>Case no {index < 9 ? '0' + (index + 1) : index + 1}
-					<img src="/longArrow.svg" alt="next-arrow" />
-				</a>
-			{/if}
-		</span>
-	</div>
-</div>
+	<nav>
+		{#if previous}
+			<a href={previous} class="previous">
+				<img src="/longArrow.svg" alt="previous-arrow" />Case no {index < 11
+					? '0' + (index - 1)
+					: index - 1}
+			</a>
+		{/if}
+		{#if next}
+			<a href={next} class="next">
+				Case no {index < 9 ? '0' + (index + 1) : index + 1}
+				<img src="/longArrow.svg" alt="next-arrow" />
+			</a>
+		{/if}
+	</nav>
+</article>
 
 <style>
-	.case {
+	article {
 		padding: 95px;
 	}
-	.case > h1 {
+	article > h1 {
 		margin-top: 0;
 		font-weight: 400;
 	}
@@ -140,18 +136,24 @@
 		margin-left: 8px;
 	}
 
-	.case-pagination {
-		margin-top: 71.5px;
+	nav {
+		margin-top: 72px;
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-end;
 	}
-	.case-pagination > span > a {
+
+	nav > a {
 		display: flex;
 		align-items: center;
 		gap: 24px;
 		font-size: var(--fontsize-body-small);
 	}
-	.case-pagination > .previous > a > img {
+
+	nav > .previous > img {
 		transform: rotate(180deg);
+	}
+
+	nav:has(.previous) {
+		justify-content: space-between;
 	}
 </style>

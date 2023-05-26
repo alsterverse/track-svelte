@@ -37,6 +37,7 @@ export const StoryblokCase = z.object({
 	preamble: z.string(),
 	date: z.string(),
 	link: StoryblokLink,
+	previewImg: StoryblokAsset,
 	team: z.array(Contributor),
 	collaborators: z.array(Collaborator),
 	category: z.array(z.string()),
