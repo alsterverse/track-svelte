@@ -22,8 +22,7 @@ const Collaborator = z.object({
 });
 const StoryblokCaseImage = z.object({
 	component: z.literal(CaseComponent.CaseImage),
-	image: StoryblokAsset,
-	imageCaption: z.string()
+	image: StoryblokAsset
 });
 
 const StoryblokParagraph = z.object({
