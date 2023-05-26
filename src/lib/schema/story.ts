@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { StoryblokCase as Case } from './case';
 
-const StoryblokComponent = {
+export const StoryblokComponent = {
 	Page: 'page',
 	Teaser: 'teaser',
 	Feature: 'feature',
@@ -32,11 +33,12 @@ const StoryblokPage = z.object({
 export const StoryblokStory = z.object({
 	name: z.string(),
 	published_at: z.string().nullable(),
+	created_at: z.string(),
 	id: z.number(),
 	uuid: z.string(),
 	slug: z.string(),
 	full_slug: z.string(),
-	content: StoryblokPage
+	content: z.discriminatedUnion('component', [StoryblokPage, Case])
 });
 
 export type StoryblokStory = z.infer<typeof StoryblokStory>;
@@ -44,3 +46,4 @@ export type StoryblokFeature = z.infer<typeof StoryblokFeature>;
 export type StoryblokTeaser = z.infer<typeof StoryblokTeaser>;
 export type StoryblokGrid = z.infer<typeof StoryblokGrid>;
 export type StoryblokPage = z.infer<typeof StoryblokPage>;
+export type StoryblokCase = z.infer<typeof Case>;

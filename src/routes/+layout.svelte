@@ -14,5 +14,29 @@
 		--color-foreground2: #cccccc;
 		--color-background: #0f1217;
 		--color-stroke: #616161;
+		background-color: var(--color-background);
+		color: var(--color-foreground1);
+		font-family: neue-haas-unica, serif;
+	}
+
+	:global(h1) {
+		font-size: var(--fontsize-heading);
+	}
+
+	:global(p) {
+		font-size: var(--fontsize-body);
+	}
+
+	:global(a) {
+		color: inherit;
+	}
+
+	@media only screen and (max-width: 600px) {
+		:global(h1) {
+			font-size: var(--fontsize-heading-mobile);
+		}
+		:global(p) {
+			font-size: var(--fontsize-body-mobile);
+		}
 	}
 </style>
