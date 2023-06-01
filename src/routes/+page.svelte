@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { useStoryblokBridge, StoryblokComponent } from '@storyblok/svelte';
+	import SubNav from '$lib/components/SubNav.svelte';
 	export let data;
 	onMount(() => {
 		if (data.story) {
@@ -13,4 +14,5 @@
 	{#if data.story}
 		<StoryblokComponent blok={data.story.content} />
 	{/if}
+	<SubNav />
 </div>
