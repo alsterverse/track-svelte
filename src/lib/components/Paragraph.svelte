@@ -6,6 +6,6 @@
 	export let blok: StoryblokParagraph;
 </script>
 
-<div use:storyblokEditable={blok}>
+<div use:storyblokEditable={blok} id={blok._uid}>
 	<SvelteMarkdown source={blok.textBody} />
 </div>

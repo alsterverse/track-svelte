@@ -1,19 +1,47 @@
 <script lang="ts">
 	import type { StoryblokCase } from '$lib/schema/case';
 	import { storyblokEditable } from '@storyblok/svelte';
+	import { currentSection } from '$lib/stores/app';
 
 	import CaseImage from './CaseImage.svelte';
 	import Paragraph from './Paragraph.svelte';
+	import { onMount } from 'svelte';
 
 	export let blok: StoryblokCase;
 	export let index: number;
 	export let previous: string;
 	export let next: string;
+	onMount(() => {
+		const intro = document.querySelector('#intro')?.getBoundingClientRect();
+		const introHeight = document.querySelector('.info-grid')?.getBoundingClientRect();
+		const team = document.querySelector('#team')?.getBoundingClientRect();
+		const body = blok.body.map((b) => ({
+			y: document.getElementById(b._uid)?.getBoundingClientRect().y,
+			id: b._uid,
+			h: document.getElementById(b._uid)?.getBoundingClientRect().height
+		}));
+		const yHeigths = [
+			{ y: 0, h: introHeight?.height + introHeight?.y, id: 'intro' },
+			...body,
+			{ y: team?.y, h: team?.height, id: 'team' }
+		];
+		window.addEventListener('scroll', (e) => {
+			const active = yHeigths.find(({ id, y, h }) => {
+				if (!!y) {
+					const b = y + (h ?? 0);
+					return b > window.scrollY && window.scrollY > y;
+				}
+			});
+			console.log(active);
+
+			if (active) currentSection.update(() => active?.id ?? 'intro');
+		});
+	});
 </script>
 
-<article use:storyblokEditable={blok} class="case">
+<article use:storyblokEditable={blok} class="case" id="case">
 	<span>No. {index < 10 ? '0' + index : index}</span>
-	<h1>{blok.title}</h1>
+	<h1 id="intro">{blok.title}</h1>
 	<div class="preamble-container">
 		<p>{blok.preamble}</p>
 	</div>
@@ -54,7 +82,7 @@
 			<CaseImage blok={innerBlok} />
 		{/if}
 	{/each}
-	<p class="info-title">Project team</p>
+	<p class="info-title" id="team">Project team</p>
 	<ul class="team">
 		{#each blok.team as contributor}
 			<li>

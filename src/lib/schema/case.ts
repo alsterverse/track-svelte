@@ -21,14 +21,17 @@ const Collaborator = z.object({
 	link: StoryblokLink
 });
 const StoryblokCaseImage = z.object({
+	_uid: z.string(),
 	component: z.literal(CaseComponent.CaseImage),
 	image: StoryblokAsset,
 	imageCaption: z.string()
 });
 
 const StoryblokParagraph = z.object({
+	_uid: z.string(),
 	component: z.literal(CaseComponent.Paragraph),
-	textBody: z.string()
+	textBody: z.string(),
+	navTitle: z.string()
 });
 
 export const StoryblokCase = z.object({

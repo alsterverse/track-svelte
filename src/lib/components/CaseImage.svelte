@@ -5,7 +5,7 @@
 	export let blok: StoryblokCaseImage;
 </script>
 
-<div use:storyblokEditable={blok}>
+<div use:storyblokEditable={blok} id={blok._uid}>
 	<StoryBlokImage blok={blok.image} />
 </div>
 
