@@ -7,6 +7,14 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+	namespace svelteHTML {
+		interface HTMLAttributes<T> {
+			'on:spy'?: (event: CustomEvent<number>) => void;
+		}
+		interface DOMAttributes<T> {
+			'on:spy'?: (event: CustomEvent<number>) => void;
+		}
+	}
 }
 
 export {};

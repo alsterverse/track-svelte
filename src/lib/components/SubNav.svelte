@@ -1,40 +1,25 @@
 <script lang="ts">
-	import type { StoryblokCase } from '$lib/schema/case';
+	import type { StoryblokCase, StoryblokParagraph } from '$lib/schema/case';
 	import { currentSection } from '$lib/stores/app';
 
 	export let story: StoryblokCase;
 
-	let activeId: string;
-
-	currentSection.subscribe((value) => {
-		activeId = value;
-	});
-	const handleClick = (id: string) => {
-		currentSection.update(() => id);
-		activeId = id;
-	};
+	const paragraphs = story.body.filter((b) => b.component === 'paragraph') as StoryblokParagraph[];
 </script>
 
 <nav>
 	<ul>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<li>
-			<a href="#intro" class:active={activeId === 'intro'} on:click={() => handleClick('intro')}>
-				intro</a
-			>
+			<a href="#intro" class:active={$currentSection === 0}>Intro</a>
 		</li>
 	</ul>
 	<ul>
-		{#each story.body as blok}
+		{#each paragraphs as paragraph, i}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<li>
-				<a
-					href={'#' + blok._uid}
-					class:active={activeId === blok._uid}
-					on:click={() => handleClick(blok._uid)}
-				>
-					{blok.component === 'caseImage' ? blok.imageCaption : ''}
-					{blok.component === 'paragraph' ? blok.navTitle : ''}</a
+				<a href={'#' + paragraph.navTitle} class:active={$currentSection === i + 1}>
+					{paragraph.component === 'paragraph' ? paragraph.navTitle : ''}</a
 				>
 			</li>
 		{/each}
@@ -42,9 +27,7 @@
 	<ul>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<li>
-			<a href="#team" class:active={activeId === 'team'} on:click={() => handleClick('team')}
-				>team</a
-			>
+			<a href="#team" class:active={$currentSection === paragraphs.length + 1}>Team</a>
 		</li>
 	</ul>
 </nav>

@@ -3,7 +3,6 @@
 	import { useStoryblokBridge } from '@storyblok/svelte';
 	import Case from '$lib/components/Case.svelte';
 	import SubNav from '$lib/components/SubNav.svelte';
-	import { currentSection } from '$lib/stores/app';
 
 	export let data;
 
@@ -11,12 +10,6 @@
 		if (data.story) {
 			useStoryblokBridge(data.story.id, (newStory) => (data.story = newStory));
 		}
-	});
-
-	let activeId: string;
-
-	currentSection.subscribe((value) => {
-		activeId = value;
 	});
 </script>
 

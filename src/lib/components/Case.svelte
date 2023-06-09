@@ -5,75 +5,58 @@
 
 	import CaseImage from './CaseImage.svelte';
 	import Paragraph from './Paragraph.svelte';
-	import { onMount } from 'svelte';
+	import { spy } from '$lib/actions/spy';
 
 	export let blok: StoryblokCase;
 	export let index: number;
 	export let previous: string;
 	export let next: string;
-	onMount(() => {
-		const intro = document.querySelector('#intro')?.getBoundingClientRect();
-		const introHeight = document.querySelector('.info-grid')?.getBoundingClientRect();
-		const team = document.querySelector('#team')?.getBoundingClientRect();
-		const body = blok.body.map((b) => ({
-			y: document.getElementById(b._uid)?.getBoundingClientRect().y,
-			id: b._uid,
-			h: document.getElementById(b._uid)?.getBoundingClientRect().height
-		}));
-		const yHeigths = [
-			{ y: 0, h: introHeight?.height + introHeight?.y, id: 'intro' },
-			...body,
-			{ y: team?.y, h: team?.height, id: 'team' }
-		];
-		window.addEventListener('scroll', (e) => {
-			const active = yHeigths.find(({ id, y, h }) => {
-				if (!!y) {
-					const b = y + (h ?? 0);
-					return b > window.scrollY && window.scrollY > y;
-				}
-			});
-			console.log(active);
-
-			if (active) currentSection.update(() => active?.id ?? 'intro');
-		});
-	});
 </script>
 
-<article use:storyblokEditable={blok} class="case" id="case">
-	<span>No. {index < 10 ? '0' + index : index}</span>
-	<h1 id="intro">{blok.title}</h1>
-	<div class="preamble-container">
-		<p>{blok.preamble}</p>
-	</div>
-	<ul class="info-grid">
-		<li class="info-item">
-			<span class="info-title">Client</span>
-			<span class="info-body">{blok.title}</span>
-		</li>
-		<li class="info-item">
-			<span class="info-title">Date</span>
-			<time class="info-body">{blok.date}</time>
-		</li>
-		<li class="info-item">
-			<span class="info-title">Category</span>
-			{#each blok.category as category}
-				<span class="info-body">{category}</span>
-			{/each}
-		</li>
-		<li class="info-item">
-			<span class="info-title">Collaborators</span>
-			{#each blok.collaborators as collaborator}
-				<span class="info-body">
-					<a href={collaborator.link.url} target="_blank">{collaborator.name}</a></span
-				>
-			{/each}
-		</li>
+<article
+	use:storyblokEditable={blok}
+	class="case"
+	id="case"
+	use:spy={'#intro, .paragraph, #team'}
+	on:spy={(e) => currentSection.set(e.detail)}
+>
+	<div id="intro">
+		<span>No. {index < 10 ? '0' + index : index}</span>
+		<h1>{blok.title}</h1>
+		<div class="preamble-container">
+			<p>{blok.preamble}</p>
+		</div>
+		<ul class="info-grid">
+			<li class="info-item">
+				<span class="info-title">Client</span>
+				<span class="info-body">{blok.title}</span>
+			</li>
+			<li class="info-item">
+				<span class="info-title">Date</span>
+				<time class="info-body">{blok.date}</time>
+			</li>
+			<li class="info-item">
+				<span class="info-title">Category</span>
+				{#each blok.category as category}
+					<span class="info-body">{category}</span>
+				{/each}
+			</li>
+			<li class="info-item">
+				<span class="info-title">Collaborators</span>
+				{#each blok.collaborators as collaborator}
+					<span class="info-body">
+						<a href={collaborator.link.url} target="_blank">{collaborator.name}</a></span
+					>
+				{/each}
+			</li>
 
-		<li class="info-item">
-			<span class="info-title">Project links</span>
-			<span class="info-body"> <a href={blok.link.url} target="_blank">Website</a></span>
-		</li>
-	</ul>
+			<li class="info-item">
+				<span class="info-title">Project links</span>
+				<span class="info-body"> <a href={blok.link.url} target="_blank">Website</a></span>
+			</li>
+		</ul>
+	</div>
+
 	{#each blok.body as innerBlok}
 		{#if innerBlok.component === 'paragraph'}
 			<Paragraph blok={innerBlok} />
@@ -82,8 +65,8 @@
 			<CaseImage blok={innerBlok} />
 		{/if}
 	{/each}
-	<p class="info-title" id="team">Project team</p>
-	<ul class="team">
+	<p class="info-title">Project team</p>
+	<ul class="team" id="team">
 		{#each blok.team as contributor}
 			<li>
 				<span class="info-body">{contributor.name} -</span>
@@ -135,6 +118,7 @@
 
 	.info-title {
 		font-size: var(--fontsize-body-small);
+		margin-top: 72px;
 	}
 	.info-body {
 		font-size: var(--fontsize-body-small);
