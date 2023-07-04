@@ -26,7 +26,7 @@ export const load = (async ({ parent, params }) => {
 
 	return {
 		story: parsedStory.data,
-		index: index + 1,
+		caseIndex: index + 1,
 		previous: previous,
 		next: next
 	};

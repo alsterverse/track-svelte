@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { StoryblokAsset } from '$lib/schema/asset';
-	import { storyblokEditable } from '@storyblok/svelte';
 	export let blok: StoryblokAsset;
 </script>
 

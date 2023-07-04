@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { storyblokEditable } from '@storyblok/svelte';
-	import StoryBlokImage from './StoryBlokImage.svelte';
+	import StoryBlokImage from '$lib/components/StoryBlokImage.svelte';
 	import type { StoryblokCaseImage } from '$lib/schema/case';
 	export let blok: StoryblokCaseImage;
 </script>
