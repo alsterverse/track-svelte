@@ -28,6 +28,7 @@
 		background-color: var(--color-background);
 		color: var(--color-foreground1);
 		font-family: neue-haas-unica, serif;
+		scroll-behavior: smooth;
 	}
 
 	:global(h1) {
