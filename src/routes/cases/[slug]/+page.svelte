@@ -4,6 +4,10 @@
 	import { storyblokEditable } from '@storyblok/svelte';
 	import Paragraph from '$lib/components/Paragraph.svelte';
 	import CaseImage from './CaseImage.svelte';
+	import { spy } from '$lib/actions/spy';
+	import { currentSection } from '$lib/stores/app';
+	import SubNav from '$lib/components/SubNav.svelte';
+
 	export let data;
 
 	onMount(() => {
@@ -14,77 +18,86 @@
 </script>
 
 {#if data.story.content.component === 'case'}
-	<article use:storyblokEditable={data.story.content} class="case">
-		<span>No. {data.caseIndex < 10 ? '0' + data.caseIndex : data.caseIndex}</span>
-		<h1>{data.story.content.title}</h1>
-		<div class="preamble-container">
-			<p>{data.story.content.preamble}</p>
-		</div>
-		<ul class="info-grid">
-			<li class="info-item">
-				<span class="info-title">Client</span>
-				<span class="info-body">{data.story.content.title}</span>
-			</li>
-			<li class="info-item">
-				<span class="info-title">Date</span>
-				<time class="info-body">{data.story.content.date}</time>
-			</li>
-			<li class="info-item">
-				<span class="info-title">Category</span>
-				{#each data.story.content.category as category}
-					<span class="info-body">{category}</span>
-				{/each}
-			</li>
-			<li class="info-item">
-				<span class="info-title">Collaborators</span>
-				{#each data.story.content.collaborators as collaborator}
-					<span class="info-body">
-						<a href={collaborator.link.url} target="_blank">{collaborator.name}</a></span
-					>
-				{/each}
-			</li>
-
-			<li class="info-item">
-				<span class="info-title">Project links</span>
-				<span class="info-body">
-					<a href={data.story.content.link.url} target="_blank">Website</a></span
-				>
-			</li>
-		</ul>
-		{#each data.story.content.body as innerContent}
-			{#if innerContent.component === 'paragraph'}
-				<Paragraph blok={innerContent} />
-			{/if}
-			{#if innerContent.component === 'caseImage'}
-				<CaseImage blok={innerContent} />
-			{/if}
-		{/each}
-		<p class="info-title">Project team</p>
-		<ul class="team">
-			{#each data.story.content.team as contributor}
-				<li>
-					<span class="info-body">{contributor.name} -</span>
-					<span class="info-body">{contributor.role} -</span>
-					<span class="info-body">{contributor.teamAffiliation}</span>
+	<article
+		use:storyblokEditable={data}
+		class="case"
+		id="case"
+		use:spy={'#intro, .paragraph, #team'}
+		on:spy={(e) => currentSection.set(e.detail)}
+	>
+		<div id="intro">
+			<span>No. {data.caseIndex < 10 ? '0' + data.caseIndex : data.caseIndex}</span>
+			<h1>{data.story.content.title}</h1>
+			<div class="preamble-container">
+				<p>{data.story.content.preamble}</p>
+			</div>
+			<ul class="info-grid">
+				<li class="info-item">
+					<span class="info-title">Client</span>
+					<span class="info-body">{data.story.content.title}</span>
 				</li>
+				<li class="info-item">
+					<span class="info-title">Date</span>
+					<time class="info-body">{data.story.content.date}</time>
+				</li>
+				<li class="info-item">
+					<span class="info-title">Category</span>
+					{#each data.story.content.category as category}
+						<span class="info-body">{category}</span>
+					{/each}
+				</li>
+				<li class="info-item">
+					<span class="info-title">Collaborators</span>
+					{#each data.story.content.collaborators as collaborator}
+						<span class="info-body">
+							<a href={collaborator.link.url} target="_blank">{collaborator.name}</a></span
+						>
+					{/each}
+				</li>
+
+				<li class="info-item">
+					<span class="info-title">Project links</span>
+					<span class="info-body">
+						<a href={data.story.content.link.url} target="_blank">Website</a></span
+					>
+				</li>
+			</ul>
+			{#each data.story.content.body as innerContent}
+				{#if innerContent.component === 'paragraph'}
+					<Paragraph blok={innerContent} />
+				{/if}
+				{#if innerContent.component === 'caseImage'}
+					<CaseImage blok={innerContent} />
+				{/if}
 			{/each}
-		</ul>
-		<nav>
-			{#if data.previous}
-				<a href={data.previous} class="previous">
-					<img src="/longArrow.svg" alt="previous-arrow" />Case no {data.caseIndex < 11
-						? '0' + (data.caseIndex - 1)
-						: data.caseIndex - 1}
-				</a>
-			{/if}
-			{#if data.next}
-				<a href={data.next} class="next">
-					Case no {data.caseIndex < 9 ? '0' + (data.caseIndex + 1) : data.caseIndex + 1}
-					<img src="/longArrow.svg" alt="next-arrow" />
-				</a>
-			{/if}
-		</nav>
+			<p class="info-title">Project team</p>
+			<ul class="team" id="team">
+				{#each data.story.content.team as contributor}
+					<li>
+						<span class="info-body">{contributor.name} -</span>
+						<span class="info-body">{contributor.role} -</span>
+						<span class="info-body">{contributor.teamAffiliation}</span>
+					</li>
+				{/each}
+			</ul>
+			<nav>
+				{#if data.previous}
+					<a href={data.previous} class="previous">
+						<img src="/longArrow.svg" alt="previous-arrow" />Case no {data.caseIndex < 11
+							? '0' + (data.caseIndex - 1)
+							: data.caseIndex - 1}
+					</a>
+				{/if}
+				{#if data.next}
+					<a href={data.next} class="next">
+						Case no {data.caseIndex < 9 ? '0' + (data.caseIndex + 1) : data.caseIndex + 1}
+						<img src="/longArrow.svg" alt="next-arrow" />
+					</a>
+				{/if}
+			</nav>
+		</div>
 	</article>
+	<SubNav story={data.story.content} />
 {/if}
 
 <style>
@@ -113,6 +126,7 @@
 
 	.info-title {
 		font-size: var(--fontsize-body-small);
+		margin-top: 72px;
 	}
 	.info-body {
 		font-size: var(--fontsize-body-small);
