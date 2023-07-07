@@ -1,11 +1,13 @@
 import { z } from 'zod';
 import { StoryblokCase as Case } from './case';
+import { StoryblokHeader } from './header';
 
 export const StoryblokComponent = {
 	Page: 'page',
 	Teaser: 'teaser',
 	Feature: 'feature',
-	Grid: 'grid'
+	Grid: 'grid',
+	Layout: 'layout'
 } as const;
 
 const StoryblokFeature = z.object({
@@ -30,6 +32,11 @@ const StoryblokPage = z.object({
 	)
 });
 
+const StoryblokLayout = z.object({
+	component: z.literal(StoryblokComponent.Layout),
+	header: z.array(z.discriminatedUnion('component', [StoryblokHeader]))
+});
+
 export const StoryblokStory = z.object({
 	name: z.string(),
 	published_at: z.string().nullable(),
@@ -38,7 +45,7 @@ export const StoryblokStory = z.object({
 	uuid: z.string(),
 	slug: z.string(),
 	full_slug: z.string(),
-	content: z.discriminatedUnion('component', [StoryblokPage, Case])
+	content: z.discriminatedUnion('component', [StoryblokPage, StoryblokLayout, Case])
 });
 
 export type StoryblokStory = z.infer<typeof StoryblokStory>;
@@ -46,4 +53,5 @@ export type StoryblokFeature = z.infer<typeof StoryblokFeature>;
 export type StoryblokTeaser = z.infer<typeof StoryblokTeaser>;
 export type StoryblokGrid = z.infer<typeof StoryblokGrid>;
 export type StoryblokPage = z.infer<typeof StoryblokPage>;
+export type StoryblokLayout = z.infer<typeof StoryblokLayout>;
 export type StoryblokCase = z.infer<typeof Case>;
