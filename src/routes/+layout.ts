@@ -1,6 +1,8 @@
 //import.meta.env.VITE_ACCESS_TOKEN
 import { apiPlugin, storyblokInit, useStoryblokApi } from '@storyblok/svelte';
 import type { LayoutLoad } from './$types';
+import { StoryblokStory } from '$lib/schema/story';
+import { error } from '@sveltejs/kit';
 
 import Feature from '$lib/components/Feature.svelte';
 import Grid from '$lib/components/Grid.svelte';
@@ -30,5 +32,16 @@ export const load = (async () => {
 
 	const storyblokApi = useStoryblokApi();
 
-	return { storyblokApi: storyblokApi };
+	const dataLayout = await storyblokApi.get(`cdn/stories/layout/`, {
+		version: 'draft'
+	});
+
+	const layout = StoryblokStory.safeParse(dataLayout.data.story);
+
+	if (!layout.success) throw error(500, 'Could not parse Storyblok layout');
+
+	return {
+		storyblokApi: storyblokApi,
+		layout: layout.data
+	};
 }) satisfies LayoutLoad;

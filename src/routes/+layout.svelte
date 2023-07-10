@@ -1,4 +1,15 @@
-<slot />
+<script lang="ts">
+	import Header from '$lib/components/Header.svelte';
+
+	export let data;
+</script>
+
+{#if data.layout.content.component === 'layout' && data.layout.content.header}
+	<Header blok={data.layout.content.header[0]} />
+{/if}
+<main>
+	<slot />
+</main>
 
 <style>
 	:root {
