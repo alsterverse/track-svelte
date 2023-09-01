@@ -30,6 +30,12 @@ const StoryblokPage = z.object({
 	)
 });
 
+export const StoryblokDataSource = z.object({
+	id: z.number(),
+	name: z.string(),
+	value: z.string()
+});
+
 export const StoryblokStory = z.object({
 	name: z.string(),
 	published_at: z.string().nullable(),
@@ -47,3 +53,4 @@ export type StoryblokTeaser = z.infer<typeof StoryblokTeaser>;
 export type StoryblokGrid = z.infer<typeof StoryblokGrid>;
 export type StoryblokPage = z.infer<typeof StoryblokPage>;
 export type StoryblokCase = z.infer<typeof Case>;
+export type StoryblokDataSource = z.infer<typeof StoryblokDataSource>;
