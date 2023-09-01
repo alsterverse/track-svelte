@@ -1,19 +1,23 @@
 import { StoryblokStory } from '$lib/schema/story';
-import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
+import { error } from '@sveltejs/kit';
+import { z } from 'zod';
 
 export const load = (async ({ parent }) => {
 	const { storyblokApi } = await parent();
-
-	const dataStory = await storyblokApi.get(`cdn/stories/home/`, {
-		version: 'draft'
+	const dataStories = await storyblokApi.get(`cdn/stories/`, {
+		version: 'draft',
+		starts_with: 'cases/'
 	});
-
-	const story = StoryblokStory.safeParse(dataStory.data.story);
-
-	if (!story.success) throw error(500, 'Could not parse Storyblok story');
-
+	const stories = dataStories.data.stories;
+	if (!stories) throw error(404);
+	const parsedStories = z.array(StoryblokStory).safeParse(stories);
+	if (!parsedStories.success)
+		throw error(500, 'Could not parse Storyblok story ' + parsedStories.error);
+	parsedStories.data.forEach((story) => {
+		if (story.content.component !== 'case') throw error(500, 'wrong content');
+	});
 	return {
-		story: story.data
+		stories: parsedStories.data
 	};
 }) satisfies PageLoad;
